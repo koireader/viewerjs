@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-12-12T15:22:50.393Z
+ * Date: 2019-12-13T08:19:00.414Z
  */
 
 function _typeof(obj) {
@@ -1695,7 +1695,7 @@ var handlers = {
   }
 };
 
-var logger = require("tracer").colorConsole();
+var logger = require('tracer').colorConsole();
 
 var methods = {
   /** Show the viewer (only available in modal mode)
@@ -1849,22 +1849,22 @@ var methods = {
     var _this = this;
 
     var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.options.initialViewIndex;
-    logger.info("view- called");
+    logger.info('view- called');
     index = Number(index) || 0;
 
     if (this.hiding || this.played || index < 0 || index >= this.length || this.viewed && index === this.index) {
-      logger.info("view- failed to satisfied >>>this.hiding || this.played || index < 0 || index >= this.length|| (this.viewed && index === this.index)<<<");
+      logger.info('view- failed to satisfied >>>this.hiding || this.played || index < 0 || index >= this.length|| (this.viewed && index === this.index)<<<');
       return this;
     }
 
     if (!this.isShown) {
-      logger.info("view- satisfied !this.isShown");
+      logger.info('view- satisfied !this.isShown');
       this.index = index;
       return this.show();
     }
 
     if (this.viewing) {
-      logger.info("view- satisfied this.viewing");
+      logger.info('view- satisfied this.viewing');
       this.viewing.abort();
     }
 
@@ -1881,11 +1881,11 @@ var methods = {
     image.alt = alt;
 
     if (isFunction(options.view)) {
-      logger.info("view- satisfied isFunction(options.view)");
+      logger.info('view- satisfied isFunction(options.view)');
       addListener(element, EVENT_VIEW, options.view, {
         once: true
       });
-      logger.info("view- after addListener1");
+      logger.info('view- after addListener1');
     }
 
     if (dispatchEvent(element, EVENT_VIEW, {
@@ -1893,72 +1893,72 @@ var methods = {
       index: index,
       image: image
     }) === false || !this.isShown || this.hiding || this.played) {
-      logger.info("view- satisfied >>>dispatchEvent(element, EVENT_VIEW, {originalImage: this.images[index],index,image,}) === false || !this.isShown || this.hiding || this.played<<<<<");
+      logger.info('view- satisfied >>>dispatchEvent(element, EVENT_VIEW, {originalImage: this.images[index],index,image,}) === false || !this.isShown || this.hiding || this.played<<<<<');
       return this;
     }
 
     this.image = image;
     removeClass(this.items[this.index], CLASS_ACTIVE);
-    logger.info("view- after removeClass");
+    logger.info('view- after removeClass');
     addClass(item, CLASS_ACTIVE);
-    logger.info("view- after addClass1");
+    logger.info('view- after addClass1');
     this.viewed = false;
     this.index = index;
     this.imageData = {};
     addClass(image, CLASS_INVISIBLE);
-    logger.info("view- after addClass2");
+    logger.info('view- after addClass2');
 
     if (options.loading) {
-      logger.info("view- satisfied options.loading");
+      logger.info('view- satisfied options.loading');
       addClass(canvas, CLASS_LOADING);
     }
 
     canvas.innerHTML = '';
     canvas.appendChild(image);
-    logger.info("view- after appendChild"); // Center current item
+    logger.info('view- after appendChild'); // Center current item
 
     this.renderList();
-    logger.info("view- after this.renderList()"); // Clear title
+    logger.info('view- after this.renderList()'); // Clear title
 
     title.innerHTML = ''; // Generate title after viewed
 
     var onViewed = function onViewed() {
-      logger.info("view- inside onViewed func");
+      logger.info('view- inside onViewed func');
       var imageData = _this.imageData;
       var render = Array.isArray(options.title) ? options.title[1] : options.title;
       title.innerHTML = escapeHTMLEntities(isFunction(render) ? render.call(_this, image, imageData) : "".concat(alt, " (").concat(imageData.naturalWidth, " \xD7 ").concat(imageData.naturalHeight, ")"));
-      logger.info("view- end of onViewed func");
+      logger.info('view- end of onViewed func');
     };
 
     var onLoad;
     addListener(element, EVENT_VIEWED, onViewed, {
       once: true
     });
-    logger.info("view- after calling addListener2");
+    logger.info('view- after calling addListener2');
     this.viewing = {
       abort: function abort() {
         removeListener(element, EVENT_VIEWED, onViewed);
-        logger.info("view- after calling removeListener in abort");
+        logger.info('view- after calling removeListener in abort');
 
         if (image.complete) {
-          logger.info("view- in abort satisfied image.complete1");
+          logger.info('view- in abort satisfied image.complete1');
 
           if (this.imageRendering) {
-            logger.info("view- in abort satisfied image.imageRendering");
+            logger.info('view- in abort satisfied image.imageRendering');
             this.imageRendering.abort();
           } else if (this.imageInitializing) {
-            logger.info("view- in abort satisfied image.imageInitializing");
+            logger.info('view- in abort satisfied image.imageInitializing');
             this.imageInitializing.abort();
           }
         } else {
-          logger.info("view- in abort failed to satisfy image.complete1"); // Cancel download to save bandwidth.
+          logger.info('view- in abort failed to satisfy image.complete1'); // Cancel download to save bandwidth.
 
           image.src = '';
           removeListener(image, EVENT_LOAD, onLoad);
-          logger.info("view- after calling removeListener2 in abort");
+          logger.info('view- after calling removeListener2 in abort');
 
           if (this.timeout) {
-            logger.info("view- in abort satisfied image.timeout1");
+            logger.info('view- in abort satisfied image.timeout1');
             clearTimeout(this.timeout);
           }
         }
@@ -1966,16 +1966,16 @@ var methods = {
     };
 
     if (image.complete) {
-      logger.info("view- in abort satisfied image.complete2");
+      logger.info('view- in abort satisfied image.complete2');
       this.load();
     } else {
-      logger.info("view- in abort failed to satisfy image.complete2");
+      logger.info('view- in abort failed to satisfy image.complete2');
       addListener(image, EVENT_LOAD, onLoad = this.load.bind(this), {
         once: true
       });
 
       if (this.timeout) {
-        logger.info("view- in abort satisfied image.timeout 2");
+        logger.info('view- in abort satisfied image.timeout 2');
         clearTimeout(this.timeout);
       } // Make the image visible if it fails to load within 1s
 
@@ -1986,7 +1986,7 @@ var methods = {
       }, 1000);
     }
 
-    logger.info("view- returning this");
+    logger.info('view- returning this');
     return this;
   },
 
@@ -2538,25 +2538,25 @@ var methods = {
   },
   // Update viewer when images changed
   update: function update(flag) {
-    logger.info("update called");
+    logger.info('update called');
     var element = this.element,
         options = this.options,
         isImg = this.isImg; // Destroy viewer if the target image was deleted
 
     if (isImg && !element.parentNode) {
-      logger.info("update- Destroy viewer if the target image was deleted");
+      logger.info('update- Destroy viewer if the target image was deleted');
       return this.destroy();
     }
 
     var images = [];
     forEach(isImg ? [element] : element.querySelectorAll('img'), function (image) {
-      logger.info("update- 1st forEach update");
+      logger.info('update- 1st forEach update');
 
       if (options.filter) {
-        logger.info("update- options.filter was present");
+        logger.info('update- options.filter was present');
 
         if (options.filter(image)) {
-          logger.info("update- options.filter(image) was present");
+          logger.info('update- options.filter(image) was present');
           images.push(image);
         }
       } else {
@@ -2566,7 +2566,7 @@ var methods = {
     });
 
     if (!images.length) {
-      logger.info("update- !images.length");
+      logger.info('update- !images.length');
       return this;
     }
 
@@ -2574,57 +2574,57 @@ var methods = {
     this.length = images.length;
 
     if (this.ready) {
-      logger.info("update- if block this.ready was present");
+      logger.info('update- if block this.ready was present');
       var indexes = [];
       forEach(this.items, function (item, i) {
-        logger.info("update- 2nd forEach");
+        logger.info('update- 2nd forEach');
         var img = item.querySelector('img');
         var image = images[i];
 
         if (image && img) {
-          logger.info("update- image && img both present");
+          logger.info('update- image && img both present');
 
           if (image.src !== img.src) {
-            logger.info("update- satisfied image.src !== img.src");
+            logger.info('update- satisfied image.src !== img.src');
             indexes.push(i);
           }
         } else {
-          logger.info("update- failed to satisfy image && img");
+          logger.info('update- failed to satisfy image && img');
           indexes.push(i);
         }
       });
-      logger.info("update-  calling setStyle");
+      logger.info('update-  calling setStyle');
       setStyle(this.list, {
         width: 'auto'
       });
-      logger.info("update- after calling setStyle now gonna call this.initList()");
+      logger.info('update- after calling setStyle now gonna call this.initList()');
       this.initList();
-      logger.info("update- after calling this.initList()");
+      logger.info('update- after calling this.initList()');
 
       if (this.isShown) {
-        logger.info("update- satisfied this.isShown");
+        logger.info('update- satisfied this.isShown');
 
         if (this.length) {
-          logger.info("update- satisfied this.length");
+          logger.info('update- satisfied this.length');
 
           if (this.viewed) {
-            logger.info("update- satisfied this.viewed");
+            logger.info('update- satisfied this.viewed');
             var index = indexes.indexOf(this.index);
 
             if (index >= 0) {
-              logger.info("update- satisfied index >= 0");
+              logger.info('update- satisfied index >= 0');
               this.viewed = false;
 
               if (!flag) {
                 this.view(Math.max(this.index - (index + 1), 0));
               }
             } else {
-              logger.info("update- failed to satisfy index >= 0");
+              logger.info('update- failed to satisfy index >= 0');
               addClass(this.items[this.index], CLASS_ACTIVE);
             }
           }
         } else {
-          logger.info("update- failed to satisfy this.length");
+          logger.info('update- failed to satisfy this.length');
           this.image = null;
           this.viewed = false;
           this.index = 0;
@@ -2634,11 +2634,11 @@ var methods = {
         }
       }
     } else {
-      logger.info("update- failed to satisfy this.ready");
+      logger.info('update- failed to satisfy this.ready');
       this.build();
     }
 
-    logger.info("update- returing this");
+    logger.info('update- returing this');
     return this;
   },
   // Destroy the viewer
