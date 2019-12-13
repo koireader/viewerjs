@@ -120,5 +120,8 @@
       "stylelint --fix",
       "git add"
     ]
+  },
+  "dependencies": {
+    "tracer": "^1.0.1"
   }
 }
